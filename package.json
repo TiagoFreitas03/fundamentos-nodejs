@@ -1,0 +1,11 @@
+{
+	"name": "fundamentos-nodejs",
+	"type": "module",
+	"version": "1.0.0",
+	"main": "server.js",
+	"scripts": {
+		"dev": "node --watch src/server.js"
+	},
+	"author": "Tiago Faria",
+	"license": "MIT"
+}
