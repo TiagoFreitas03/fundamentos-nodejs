@@ -1,2 +1,5 @@
 # Database
 db.json
+
+# Dependencies
+node_modules/

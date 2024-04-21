@@ -7,5 +7,8 @@
 		"dev": "node --watch src/server.js"
 	},
 	"author": "Tiago Faria",
-	"license": "MIT"
+	"license": "MIT",
+	"dependencies": {
+		"csv-parse": "^5.5.5"
+	}
 }
