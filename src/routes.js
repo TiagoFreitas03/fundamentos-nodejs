@@ -57,14 +57,12 @@ export const routes = [
 
 			const task = database.findById('tasks', id)
 
-			if (task) {
-				database.update('tasks', id, {
-					...task,
-					title,
-					description,
-					updated_at: new Date(),
-				})
-			}
+			database.update('tasks', id, {
+				...task,
+				title,
+				description,
+				updated_at: new Date(),
+			})
 
 			return res.writeHead(204).end()
 		}
@@ -88,12 +86,10 @@ export const routes = [
 
 			const task = database.findById('tasks', id)
 
-			if (task) {
-				database.update('tasks', id, {
-					...task,
-					completed_at: new Date()
-				})
-			}
+			database.update('tasks', id, {
+				...task,
+				completed_at: new Date()
+			})
 
 			return res.writeHead(204).end()
 		}

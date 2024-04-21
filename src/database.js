@@ -28,11 +28,11 @@ export class Database {
 	findById(table, id) {
 		const rowIndex = this.#database[table].findIndex(row => row.id === id)
 
-		if (rowIndex > -1) {
-			return this.#database[table][rowIndex]
+		if (rowIndex === -1) {
+			throw new Error('Resource not found')
 		}
 
-		return undefined
+		return this.#database[table][rowIndex]
 	}
 
 	insert(table, data) {
@@ -50,18 +50,22 @@ export class Database {
 	update(table, id, data) {
 		const rowIndex = this.#database[table].findIndex(row => row.id === id)
 
-		if (rowIndex > -1) {
-			this.#database[table][rowIndex] = { id, ...data }
-			this.#persist()
+		if (rowIndex === -1) {
+			throw new Error('Resource not found')
 		}
+
+		this.#database[table][rowIndex] = { id, ...data }
+		this.#persist()
 	}
 
 	delete(table, id) {
 		const rowIndex = this.#database[table].findIndex(row => row.id === id)
 
-		if (rowIndex > -1) {
-			this.#database[table].splice(rowIndex, 1)
-			this.#persist()
+		if (rowIndex === -1) {
+			throw new Error('Resource not found')
 		}
+
+		this.#database[table].splice(rowIndex, 1)
+		this.#persist()
 	}
 }

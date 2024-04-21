@@ -17,7 +17,13 @@ const server = http.createServer(async(req, res) => {
 
 		req.params = { ...routeParams.groups }
 
-		return route.handler(req, res)
+		try {
+			return route.handler(req, res)
+		} catch (err) {
+			return res.writeHead(404).end(JSON.stringify({
+				message: err.message
+			}))
+		}
 	}
 
 	return res.writeHead(404).end()
