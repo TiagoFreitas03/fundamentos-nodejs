@@ -85,10 +85,11 @@ export const routes = [
 			const { id } = req.params
 
 			const task = database.findById('tasks', id)
+			const isTaskCompleted = task.completed_at !== null
 
 			database.update('tasks', id, {
 				...task,
-				completed_at: new Date()
+				completed_at: isTaskCompleted ? null : new Date()
 			})
 
 			return res.writeHead(204).end()
