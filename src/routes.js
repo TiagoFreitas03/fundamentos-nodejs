@@ -26,6 +26,10 @@ export const routes = [
 		handler: (req, res) => {
 			const { title, description } = req.body
 
+			if (!title || !description) {
+				return res.writeHead(400).end()
+			}
+
 			const task = {
 				id: randomUUID(),
 				title,
@@ -46,6 +50,10 @@ export const routes = [
 		handler: (req, res) => {
 			const { id } = req.params
 			const { title, description } = req.body
+
+			if (!title || !description) {
+				return res.writeHead(400).end()
+			}
 
 			const task = database.findById('tasks', id)
 
