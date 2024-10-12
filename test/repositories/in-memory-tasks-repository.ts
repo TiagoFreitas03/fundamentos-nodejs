@@ -11,4 +11,20 @@ export class InMemoryTasksRepository implements TasksRepository {
   async findMany() {
     return this.items
   }
+
+  async findById(id: string) {
+    const task = this.items.find((item) => item.id.toString() === id)
+
+    if (!task) {
+      return null
+    }
+
+    return task
+  }
+
+  async save(task: Task) {
+    const itemIndex = this.items.findIndex((item) => item.id === task.id)
+
+    this.items[itemIndex] = task
+  }
 }
