@@ -4,69 +4,75 @@ import path from 'node:path'
 const databasePath = path.join(__dirname, '..', 'db.json')
 
 export class Database {
-	#database: any = {}
+  #database: any = {}
 
-	constructor() {
-		fs.readFile(databasePath, 'utf8')
-			.then(data => {
-				this.#database = JSON.parse(data)
-			})
-			.catch(() => {
-				this.#persist()
-			})
-	}
+  constructor() {
+    fs.readFile(databasePath, 'utf8')
+      .then((data) => {
+        this.#database = JSON.parse(data)
+      })
+      .catch(() => {
+        this.#persist()
+      })
+  }
 
-	#persist() {
-		fs.writeFile(databasePath, JSON.stringify(this.#database))
-	}
+  #persist() {
+    fs.writeFile(databasePath, JSON.stringify(this.#database))
+  }
 
-	select(table: string) {
-		const data = this.#database[table] ?? []
+  select(table: string) {
+    const data = this.#database[table] ?? []
 
-		return data
-	}
+    return data
+  }
 
-	findById(table: string, id: string) {
-		const rowIndex = this.#database[table].findIndex((row: any) => row.id === id)
+  findById(table: string, id: string) {
+    const rowIndex = this.#database[table].findIndex(
+      (row: any) => row.id === id,
+    )
 
-		if (rowIndex === -1) {
-			throw new Error('Resource not found')
-		}
+    if (rowIndex === -1) {
+      throw new Error('Resource not found')
+    }
 
-		return this.#database[table][rowIndex]
-	}
+    return this.#database[table][rowIndex]
+  }
 
-	insert(table: string, data: any) {
-		if (Array.isArray(this.#database[table])) {
-			this.#database[table].push(data)
-		} else {
-			this.#database[table] = [data]
-		}
+  insert(table: string, data: any) {
+    if (Array.isArray(this.#database[table])) {
+      this.#database[table].push(data)
+    } else {
+      this.#database[table] = [data]
+    }
 
-		this.#persist()
+    this.#persist()
 
-		return data
-	}
+    return data
+  }
 
-	update(table: string, id: string, data: any) {
-		const rowIndex = this.#database[table].findIndex((row: any) => row.id === id)
+  update(table: string, id: string, data: any) {
+    const rowIndex = this.#database[table].findIndex(
+      (row: any) => row.id === id,
+    )
 
-		if (rowIndex === -1) {
-			throw new Error('Resource not found')
-		}
+    if (rowIndex === -1) {
+      throw new Error('Resource not found')
+    }
 
-		this.#database[table][rowIndex] = { id, ...data }
-		this.#persist()
-	}
+    this.#database[table][rowIndex] = { id, ...data }
+    this.#persist()
+  }
 
-	delete(table: string, id: string) {
-		const rowIndex = this.#database[table].findIndex((row: any) => row.id === id)
+  delete(table: string, id: string) {
+    const rowIndex = this.#database[table].findIndex(
+      (row: any) => row.id === id,
+    )
 
-		if (rowIndex === -1) {
-			throw new Error('Resource not found')
-		}
+    if (rowIndex === -1) {
+      throw new Error('Resource not found')
+    }
 
-		this.#database[table].splice(rowIndex, 1)
-		this.#persist()
-	}
+    this.#database[table].splice(rowIndex, 1)
+    this.#persist()
+  }
 }

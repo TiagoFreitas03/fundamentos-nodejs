@@ -3,33 +3,33 @@ import path from 'node:path'
 import { parse } from 'csv-parse'
 
 async function uploadCsv() {
-	const filePath = path.join(__dirname, 'example.csv')
+  const filePath = path.join(__dirname, 'example.csv')
 
-	const readStream = fs.createReadStream(filePath)
+  const readStream = fs.createReadStream(filePath)
 
-	const csvParser = parse({
-		delimiter: ',',
-		skip_empty_lines: true,
-		fromLine: 2
-	})
+  const csvParser = parse({
+    delimiter: ',',
+    skip_empty_lines: true,
+    fromLine: 2,
+  })
 
-	const csvLines = readStream.pipe(csvParser)
+  const csvLines = readStream.pipe(csvParser)
 
-	for await (const line of csvLines) {
-		const [title, description] = line
+  for await (const line of csvLines) {
+    const [title, description] = line
 
-		await fetch('http://localhost:3333/tasks', {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json',
-			},
-			body: JSON.stringify({ title, description }),
-		})
+    await fetch('http://localhost:3333/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ title, description }),
+    })
 
-		console.log(`task "${title}" created`)
+    console.log(`task "${title}" created`)
 
-		await new Promise((resolve) => setTimeout(resolve, 1000))
-	}
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+  }
 }
 
 uploadCsv()

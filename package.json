@@ -4,6 +4,8 @@
 	"main": "server.js",
 	"scripts": {
 		"start:dev": "tsx watch src/server.ts",
+		"lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
 		"upload": "tsx streams/upload-csv.ts"
 	},
 	"author": "Tiago Faria",
@@ -12,7 +14,9 @@
 		"csv-parse": "^5.5.5"
 	},
 	"devDependencies": {
+		"@rocketseat/eslint-config": "^2.2.2",
 		"@types/node": "^22.7.5",
+		"eslint": "8.57.0",
 		"tsx": "^4.19.1",
 		"typescript": "^5.6.3"
 	}
