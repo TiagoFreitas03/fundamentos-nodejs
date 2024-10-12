@@ -45,6 +45,11 @@ export class Task extends Entity<TaskProps> {
     this.touch()
   }
 
+  set completedAt(completedAt: Date | undefined) {
+    this.props.completedAt = completedAt
+    this.touch()
+  }
+
   static create(props: Optional<TaskProps, 'createdAt'>, id?: UniqueEntityId) {
     const task = new Task(
       {
