@@ -1,0 +1,49 @@
+import { InMemoryTasksRepository } from 'test/repositories/in-memory-tasks-repository'
+import { makeTask } from 'test/factories/make-task'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { MarkTaskAsCompleteUseCase } from './mark-task-as-complete'
+
+let tasksRepository: InMemoryTasksRepository
+let sut: MarkTaskAsCompleteUseCase
+
+describe('Mark Task as Complete', () => {
+  beforeEach(() => {
+    tasksRepository = new InMemoryTasksRepository()
+    sut = new MarkTaskAsCompleteUseCase(tasksRepository)
+  })
+
+  it('should be able to mark a task as complete', async () => {
+    const newTask = makeTask()
+
+    tasksRepository.create(newTask)
+
+    await sut.execute({
+      taskId: newTask.id.toString(),
+    })
+
+    expect(tasksRepository.items[0].completedAt).not.toBeUndefined()
+  })
+
+  it('should be able to mark a task as uncomplete', async () => {
+    const newTask = makeTask({
+      completedAt: new Date(),
+    })
+
+    tasksRepository.create(newTask)
+
+    await sut.execute({
+      taskId: newTask.id.toString(),
+    })
+
+    expect(tasksRepository.items[0].completedAt).toBeUndefined()
+  })
+
+  it('should not be able to mark as complete a non existent task', async () => {
+    const result = await sut.execute({
+      taskId: 'non-existent-task-id',
+    })
+
+    expect(result.isLeft()).toEqual(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+  })
+})
