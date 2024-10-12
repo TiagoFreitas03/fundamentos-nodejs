@@ -1,8 +1,9 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import { parse } from 'csv-parse'
 
 async function uploadCsv() {
-	const filePath = new URL('./example.csv', import.meta.url)
+	const filePath = path.join(__dirname, 'example.csv')
 
 	const readStream = fs.createReadStream(filePath)
 

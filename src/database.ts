@@ -1,9 +1,10 @@
 import fs from 'node:fs/promises'
+import path from 'node:path'
 
-const databasePath = new URL('../db.json', import.meta.url)
+const databasePath = path.join(__dirname, '..', 'db.json')
 
 export class Database {
-	#database = {}
+	#database: any = {}
 
 	constructor() {
 		fs.readFile(databasePath, 'utf8')
@@ -19,14 +20,14 @@ export class Database {
 		fs.writeFile(databasePath, JSON.stringify(this.#database))
 	}
 
-	select(table) {
+	select(table: string) {
 		const data = this.#database[table] ?? []
 
 		return data
 	}
 
-	findById(table, id) {
-		const rowIndex = this.#database[table].findIndex(row => row.id === id)
+	findById(table: string, id: string) {
+		const rowIndex = this.#database[table].findIndex((row: any) => row.id === id)
 
 		if (rowIndex === -1) {
 			throw new Error('Resource not found')
@@ -35,7 +36,7 @@ export class Database {
 		return this.#database[table][rowIndex]
 	}
 
-	insert(table, data) {
+	insert(table: string, data: any) {
 		if (Array.isArray(this.#database[table])) {
 			this.#database[table].push(data)
 		} else {
@@ -47,8 +48,8 @@ export class Database {
 		return data
 	}
 
-	update(table, id, data) {
-		const rowIndex = this.#database[table].findIndex(row => row.id === id)
+	update(table: string, id: string, data: any) {
+		const rowIndex = this.#database[table].findIndex((row: any) => row.id === id)
 
 		if (rowIndex === -1) {
 			throw new Error('Resource not found')
@@ -58,8 +59,8 @@ export class Database {
 		this.#persist()
 	}
 
-	delete(table, id) {
-		const rowIndex = this.#database[table].findIndex(row => row.id === id)
+	delete(table: string, id: string) {
+		const rowIndex = this.#database[table].findIndex((row: any) => row.id === id)
 
 		if (rowIndex === -1) {
 			throw new Error('Resource not found')
