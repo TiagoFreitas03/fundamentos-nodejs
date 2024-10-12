@@ -5,4 +5,5 @@ export abstract class TasksRepository {
   abstract findMany(): Promise<Task[]>
   abstract findById(id: string): Promise<Task | null>
   abstract save(task: Task): Promise<void>
+  abstract delete(task: Task): Promise<void>
 }
