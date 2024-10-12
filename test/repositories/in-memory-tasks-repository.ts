@@ -27,4 +27,10 @@ export class InMemoryTasksRepository implements TasksRepository {
 
     this.items[itemIndex] = task
   }
+
+  async delete(task: Task): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id === task.id)
+
+    this.items.splice(itemIndex, 1)
+  }
 }
