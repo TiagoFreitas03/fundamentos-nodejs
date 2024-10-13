@@ -6,8 +6,8 @@ export interface TaskProps {
   title: string
   description: string
   createdAt: Date
-  updatedAt?: Date
-  completedAt?: Date
+  updatedAt?: Date | null
+  completedAt?: Date | null
 }
 
 export class Task extends Entity<TaskProps> {
@@ -45,7 +45,7 @@ export class Task extends Entity<TaskProps> {
     this.touch()
   }
 
-  set completedAt(completedAt: Date | undefined) {
+  set completedAt(completedAt: Date | undefined | null) {
     this.props.completedAt = completedAt
     this.touch()
   }
