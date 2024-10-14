@@ -26,7 +26,11 @@ export class ToggleTaskCompleteUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    task.completedAt = task.completedAt ? undefined : new Date()
+    if (task.completedAt === null || task.completedAt === undefined) {
+      task.completedAt = new Date()
+    } else {
+      task.completedAt = null
+    }
 
     await this.tasksRepository.save(task)
 

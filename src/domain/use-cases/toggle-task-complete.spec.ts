@@ -21,7 +21,7 @@ describe('Toggle Task Complete', () => {
       taskId: newTask.id.toString(),
     })
 
-    expect(tasksRepository.items[0].completedAt).not.toBeUndefined()
+    expect(tasksRepository.items[0].completedAt).toEqual(expect.any(Date))
   })
 
   it('should be able to mark a task as incomplete', async () => {
@@ -35,7 +35,7 @@ describe('Toggle Task Complete', () => {
       taskId: newTask.id.toString(),
     })
 
-    expect(tasksRepository.items[0].completedAt).toBeUndefined()
+    expect(tasksRepository.items[0].completedAt).toBeNull()
   })
 
   it('should not be able to mark as complete a non existent task', async () => {
