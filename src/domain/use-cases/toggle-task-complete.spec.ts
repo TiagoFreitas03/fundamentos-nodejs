@@ -1,15 +1,15 @@
 import { InMemoryTasksRepository } from 'test/repositories/in-memory-tasks-repository'
 import { makeTask } from 'test/factories/make-task'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
-import { MarkTaskAsCompleteUseCase } from './mark-task-as-complete'
+import { ToggleTaskCompleteUseCase } from './toggle-task-complete'
 
 let tasksRepository: InMemoryTasksRepository
-let sut: MarkTaskAsCompleteUseCase
+let sut: ToggleTaskCompleteUseCase
 
-describe('Mark Task as Complete', () => {
+describe('Toggle Task Complete', () => {
   beforeEach(() => {
     tasksRepository = new InMemoryTasksRepository()
-    sut = new MarkTaskAsCompleteUseCase(tasksRepository)
+    sut = new ToggleTaskCompleteUseCase(tasksRepository)
   })
 
   it('should be able to mark a task as complete', async () => {
@@ -24,7 +24,7 @@ describe('Mark Task as Complete', () => {
     expect(tasksRepository.items[0].completedAt).not.toBeUndefined()
   })
 
-  it('should be able to mark a task as uncomplete', async () => {
+  it('should be able to mark a task as incomplete', async () => {
     const newTask = makeTask({
       completedAt: new Date(),
     })

@@ -3,23 +3,23 @@ import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { Task } from '../entities/task'
 import { TasksRepository } from '../repositories/tasks-repository'
 
-interface MarkTaskAsCompleteUseCaseRequest {
+interface ToggleTaskCompleteUseCaseRequest {
   taskId: string
 }
 
-type MarkTaskAsCompleteUseCaseResponse = Either<
+type ToggleTaskCompleteUseCaseResponse = Either<
   ResourceNotFoundError,
   {
     task: Task
   }
 >
 
-export class MarkTaskAsCompleteUseCase {
+export class ToggleTaskCompleteUseCase {
   constructor(private tasksRepository: TasksRepository) {}
 
   async execute({
     taskId,
-  }: MarkTaskAsCompleteUseCaseRequest): Promise<MarkTaskAsCompleteUseCaseResponse> {
+  }: ToggleTaskCompleteUseCaseRequest): Promise<ToggleTaskCompleteUseCaseResponse> {
     const task = await this.tasksRepository.findById(taskId)
 
     if (!task) {
